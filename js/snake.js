@@ -220,22 +220,22 @@ function createRect(x, y, width, height, color) {
 window.addEventListener("keydown", (event) => {
     setTimeout(()=> {
         //left
-        if (event.keyCode == 37 && snake.rotateX != 1) {
+        if (event.keyCode == 37  || event.keyCode == 65 && snake.rotateX != 1) {
             snake.nextRotateX = -1
             snake.nextRotateY = 0;
         }
         //right
-        else if (event.keyCode == 39 && snake.rotateX != -1) {
+        else if (event.keyCode == 39  || event.keyCode == 68 && snake.rotateX != -1) {
             snake.nextRotateX = 1
             snake.nextRotateY = 0;
         }
-        //down
-        else if (event.keyCode == 38 && snake.rotateY != 1) {
+        //up
+        else if (event.keyCode == 38 || event.keyCode == 87 && snake.rotateY != 1) {
             snake.nextRotateX = 0
             snake.nextRotateY = -1;
         }
-        //up
-        else if (event.keyCode == 40 && snake.rotateY != -1) {
+        //down
+        else if (event.keyCode == 40 || event.keyCode == 83 && snake.rotateY != -1) {
             snake.nextRotateX = 0
             snake.nextRotateY = 1;
         }
