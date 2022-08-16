@@ -1,0 +1,176 @@
+body {
+    background-image: url('../img/space.jpg');
+    background-size: cover;
+}   
+
+#score {
+    position: absolute;
+    left: 600;
+    top: 0;
+    right: 40;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgb(150, 235, 23);
+    font-family: 'Nova Square';
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 0px;
+}
+
+#highscore {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 230;
+    bottom: 0;
+    width: 200px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgb(150, 235, 23);
+    font-family: 'Nova Square';
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 0px;
+}
+
+#score-display {
+    position: absolute;
+    left: 470;
+    top: 0;
+    right: 40;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgb(150, 235, 23);
+    font-family: 'Nova Square';
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 0px;
+}
+
+#highscore-display {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 430;
+    bottom: 0;
+    width: 200px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgb(150, 235, 23);
+    font-family: 'Nova Square';
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 0px;
+}
+#div-canvas {
+    /* background-image: url("https://www.worldatlas.com/r/w960-q80/upload/8b/a2/bb/shutterstock-665814145.jpg"); */
+    display: flex;
+    width: 600px;
+    margin: 100 auto;
+    outline: white 3px solid;
+}
+
+#title {
+    position: absolute;
+    left: 0;
+    top: 700;
+    right: 20;
+    bottom: 0;
+    width: 500px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgb(150, 235, 23);
+    font-family: 'Nova Square';
+    font-size: 4rem;
+    display: flex;
+    justify-content: center;
+    font-weight: bolder;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 0px;
+    text-shadow: -1px -1px 0 rgb(32, 35, 199), 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#start {
+    z-index: 1;
+    position: absolute;
+    left: 15;
+    top: 50;
+    right: 10;
+    bottom: 200;
+    width: 600px;
+    height: 600px;
+    margin: auto;
+    color: rgb(150, 235, 23);
+    font-family: 'Nova Square';
+    font-size: 4rem;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    text-shadow: -7px 7px #333;
+}
+
+#paused {
+    z-index: 1;
+    position: absolute;
+    left: 30;
+    top: 50;
+    right: 0;
+    bottom: 200;
+    width: 600px;
+    height: 600px;
+    margin: auto;
+    color: blueviolet;
+    font-family: 'Nova Square';
+    font-size: 4rem;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    text-shadow: -7px 7px #333;
+}
+.game-over {
+    z-index: 1;
+    position: absolute;
+    left: 30;
+    top: 50;
+    right: 0;
+    bottom: 200;
+    width: 600px;
+    height: 600px;
+    margin: auto;
+    color: red;
+    font-family: 'Nova Square';
+    font-size: 4rem;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    text-shadow: -7px 7px #333;
+}
+
