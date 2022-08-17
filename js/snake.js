@@ -66,13 +66,36 @@ class Apple {
     }
 }
 
+class Star {
+    constructor() {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h;
+        this.s = Math.random() * 2;
+        this.ang = Math.random() * 2 * Math.PI;
+        this.v = (this.s * this.s) / 4;
+    }
+
+    moveStar() {
+        this.x += this.v * Math.cos(this.ang);
+        this.y += this.v * Math.sin(this.ang);
+        this.and += (Math.random() * 20 * Math.PI) / 180 - (10 * Math.PI) / 180;
+    }
+
+    showStar() {
+        canvasContext.beginPath();
+        canvasContext.arc(this.x, this.y, this.s, 0, 2 * Math.PI);
+        canvasContext.fillStyle = "#fddba3";
+        canvasContext.fill();
+    }
+}
 var context = document.getElementById("canvas")
 var canvasContext = canvas.getContext('2d')
 var pause = document.getElementById('paused')
-//const score = document.querySelector('.score')
-//const highscore = document.querySelector('#highscore')
 var gameOver = document.querySelector('.game-over')
 var start = document.getElementById('start')
+var score = document.getElementById('score');
+var highscore = localStorage.getItem("highscore");
+document.getElementById('highscore').innerHTML = localStorage.getItem("highscore");
 
 var snake = new Snake(20, 20, 20);
 var apple = new Apple();
@@ -83,11 +106,11 @@ let eatSound = new Audio();
 let deathSound = new Audio();
 let startSound = new Audio();
 let music = new Audio();
-
 eatSound.src = './audio/eat.mp3';
 deathSound.src = './audio/death.mp3';
 startSound.src = './audio/start.mp3';
 music.src = './audio/music.mp3';
+
 
 window.onload = () => {
     gameLoop();
@@ -97,13 +120,11 @@ var started = false;
 function startGame() {
     window.addEventListener("keydown", (event) => {
         setTimeout(()=> {
-            //left
-            if (event.keyCode == 32) {
+            if (event.keyCode == 32 && !started) {
                 startSound.play();
                 start.style.opacity = 0;
                 started = true;
             }
-            //return false;
         }, 1)
     })
 }
@@ -112,11 +133,15 @@ function gameLoop() {
     const gameInterval = setInterval(show, 1000/15)
 }
 
+function starLoop() {
+    window.requestAnimationFrame(starLoop);
+    drawStars();
+}
+
 function show() {
     music.play();
-    if (started == true) {
+    if (started) {
         update();
-        console.log('true')
     }
     console.log(startGame())
     draw();
@@ -126,8 +151,7 @@ function show() {
 function update() {
     if (!isPaused) {
         if (checkHitSelf() || checkHitWall()) {isGameOver(); return;}
-        music.play();
-        console.log("update")
+        music.play()
         snake.move()
         eatApple()
         checkHitWall()
@@ -146,15 +170,8 @@ function isGameOver() {
         clearInterval(gameLoop);
     }, 1900)
     setTimeout(function() {gameOver.style.opacity = '1';}, 150);
-    // window.addEventListener("keydown", (event) => {
-    //     setTimeout(()=> {
-    //         if (event.keyCode == 32) {
-    //             document.location.reload();
-    //             clearInterval(gameLoop);
-    //         }
-    //     }, 1)
-    // })
 }
+
 
 function checkHitSelf() {
     var headTail = snake.tail[snake.tail.length - 1]
@@ -183,33 +200,14 @@ function eatApple() {
         }
 }
 
-var score = document.getElementById('score');
-var highscore = localStorage.getItem("highscore");
-console.log(highscore);
-document.getElementById('highscore').innerHTML = localStorage.getItem("highscore");
-// var highscore = 0;
-// var localStorage = localStorage;
-// localStorage.setItem("highscore", highscore);
-// var storage = localStorage.getItem("highscore");
-// highscore.innerHTML = storage;
-
 function draw() {
-    score.innerText = snake.tail.length - 1;
-    //highscore.innerHTML = storage;
-    console.log('highscore:' + highscore)
-    console.log('score:' + score.innerText)
-    
+    score.innerText = snake.tail.length - 1;   
     createRect(0, 0, canvas.width, canvas.height, "black")
+    createRect(apple.x, apple.y, apple.size, apple.size, apple.color)
     for (var i = 0; i < snake.tail.length; i++) {
         createRect(snake.tail[i].x + 2.5, snake.tail[i].y + 2.5,
             snake.size - 5, snake.size - 5, '#03fc1c')
     }
-
-    // canvasContext.font = "20px Arial"
-    // canvasContext.fillStyle = "#00FF42"
-    // canvasContext.fillText("Score: " + score, canvas.width - 100, 20);
-    
-    createRect(apple.x, apple.y, apple.size, apple.size, apple.color)
 }
 
 function createRect(x, y, width, height, color) {
@@ -217,104 +215,28 @@ function createRect(x, y, width, height, color) {
     canvasContext.fillRect(x, y, width, height)
 }
 
-window.addEventListener("keydown", (event) => {
-    setTimeout(()=> {
-        //left
-        if (event.keyCode == 37  || event.keyCode == 65 && snake.rotateX != 1) {
-            snake.nextRotateX = -1
-            snake.nextRotateY = 0;
-        }
-        //right
-        else if (event.keyCode == 39  || event.keyCode == 68 && snake.rotateX != -1) {
-            snake.nextRotateX = 1
-            snake.nextRotateY = 0;
-        }
-        //up
-        else if (event.keyCode == 38 || event.keyCode == 87 && snake.rotateY != 1) {
-            snake.nextRotateX = 0
-            snake.nextRotateY = -1;
-        }
-        //down
-        else if (event.keyCode == 40 || event.keyCode == 83 && snake.rotateY != -1) {
-            snake.nextRotateX = 0
-            snake.nextRotateY = 1;
-        }
-        //pause
-        else if (event.keyCode == 80 && !isPaused) {
-            isPaused = true;
-            pause.style.opacity = '1';
-            music.pause();
-        }
-        else if (event.keyCode == 80 && isPaused) {
-            isPaused = false;
-            pause.style.opacity = '0';
-            music.play();
-         }
-    }, 1)
-})
-
-
-
-//handles stars 
 w = canvas.width;
 h = canvas.height;
-//Initation
-class Star {
-    constructor() {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
-        this.s = Math.random() * 2;
-        this.ang = Math.random() * 2 * Math.PI;
-        this.v = (this.s * this.s) / 4;
-    }
 
-    moveStar() {
-        this.x += this.v * Math.cos(this.ang);
-        this.y += this.v * Math.sin(this.ang);
-        this.and += (Math.random() * 20 * Math.PI) / 180 - (10 * Math.PI) / 180;
-    }
-
-    showStar() {
-        canvasContext.beginPath();
-        canvasContext.arc(this.x, this.y, this.s, 0, 2 * Math.PI);
-        canvasContext.fillStyle = "#fddba3";
-        canvasContext.fill();
-    }
-}
-
-let f = [];
-
+let stars = [];
 function drawStars() {
-    if (f.length < 100) {
+    if (stars.length < 100) {
         for (let j = 0; j < 10; j++) {
-            f.push(new Star());
+            stars.push(new Star());
         }
     }
 
     //animation
-    for (let i = 0; i < f.length; i++) {
-        f[i].moveStar();
-        f[i].showStar();
-        if (f[i].x < 0 || f[i].x > w || f[i].y > h || f[i].y < 0) {
-            f.splice(i, 1);
+    for (let i = 0; i < stars.length; i++) {
+        stars[i].moveStar();
+        stars[i].showStar();
+        if (stars[i].x < 0 || stars[i].x > w || stars[i].y > h || stars[i].y < 0) {
+            stars.splice(i, 1);
         }
     }
 }
-
-let mouse = {};
-let last_mouse = {};
-
-canvas.addEventListener(
-    "mouseover",
-    function (e) {
-        last_mouse.x = mouse.x;
-        last_mouse.y = mouse.y;
-
-        mouse.x = e.pageX - this.offsetLeft;
-        mouse.y = e.pageY - this.offsetTop;
-    },
-    false
-);
+starLoop();
+setInterval(starLoop, 1000/100);
 
 window.requestAnimationFrame = function () {
     return (
@@ -325,18 +247,44 @@ window.requestAnimationFrame = function () {
     );
 };
 
-function starLoop() {
-    window.requestAnimationFrame(starLoop);
-    //canvasContext.clearRect(0, 0, w, h);
-    drawStars();
-}
+window.addEventListener("keydown", (event) => {
+    setTimeout(()=> {
+        //left
+        if ((event.keyCode == 37  || event.keyCode == 65) && snake.rotateX != 1) {
+            snake.nextRotateX = -1
+            snake.nextRotateY = 0;
+        }
+        //right
+        else if ((event.keyCode == 39  || event.keyCode == 68) && snake.rotateX != -1) {
+            snake.nextRotateX = 1
+            snake.nextRotateY = 0;
+        }
+        //up
+        else if ((event.keyCode == 38 || event.keyCode == 87) && snake.rotateY != 1) {
+            snake.nextRotateX = 0
+            snake.nextRotateY = -1;
+        }
+        //down
+        else if ((event.keyCode == 40 || event.keyCode == 83) && snake.rotateY != -1) {
+            snake.nextRotateX = 0
+            snake.nextRotateY = 1;
+        }
+        //pause
+        else if (event.keyCode == 80 && !isPaused) {
+            isPaused = true;
+            pause.style.opacity = '1';
+        }
+        else if (event.keyCode == 80 && isPaused) {
+            isPaused = false;
+            pause.style.opacity = '0';
+        }
+    }, 1)
+})
 
 window.addEventListener('resize', function() {
     (w = canvas.width),
     (h = canvas.height);
     starLoop();
 });
-starLoop();
-setInterval(starLoop, 1000/100);
 
 
