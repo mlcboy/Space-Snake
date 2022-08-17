@@ -45,7 +45,6 @@ class Snake {
 
 class Apple {
     constructor() {
-        console.log("apple")
         var isTouching;
         while(true) {
             isTouching = false;
@@ -58,7 +57,6 @@ class Apple {
             }
             this.color = "red"
             this.size = snake.size
-            console.log(this.x, this.y)
             if (!isTouching) {
                 break;
             }
@@ -88,6 +86,7 @@ class Star {
         canvasContext.fill();
     }
 }
+
 var context = document.getElementById("canvas")
 var canvasContext = canvas.getContext('2d')
 var pause = document.getElementById('paused')
@@ -143,7 +142,7 @@ function show() {
     if (started) {
         update();
     }
-    console.log(startGame())
+    console.log(startGame()); //line needed
     draw();
     drawStars();
 }
@@ -159,8 +158,9 @@ function update() {
     }
 }
 
+
 function isGameOver() {
-    if (score.innerHTML > highscore) {
+    if (Number(score.innerHTML) > Number(highscore)) {
         highscore = score.innerHTML;
         localStorage.setItem("highscore", highscore);
     }
